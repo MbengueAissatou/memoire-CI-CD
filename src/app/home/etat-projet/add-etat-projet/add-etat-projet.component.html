@@ -1,0 +1,77 @@
+<div class="modal-header" data-bs-theme="light">
+  <h1 class="modal-title fs-5">Ajouter Etat</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="reactiveForm_add_etat_projet" (ngSubmit)="onSubmit_add_etat_projet()" class="row">
+
+    <!-- Champ Nom -->
+    <div class="form-group col-sm-6">
+      <label>Nom</label>
+      <input class="form-control" type="text" formControlName="nom" placeholder="Nom"
+        [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" />
+      @if (submitted && f.nom.errors) {
+        <div class="invalid-feedback">
+          @if (f.nom.errors.required) {
+            <div>Ce champ est obligatoire</div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Champ Description -->
+    <div class="form-group col-sm-6">
+      <label>Description</label>
+      <input class="form-control" type="text" formControlName="description" placeholder="Description"
+        [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+      @if (submitted && f.description.errors) {
+        <div class="invalid-feedback">
+          @if (f.description.errors.required) {
+            <div>Ce champ est obligatoire</div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Champ Couleur -->
+    <div class="form-group col-sm-6">
+      <label class="form-label fw-semibold">Couleur</label>
+      <input class="form-control" type="color" formControlName="couleur"
+        [ngClass]="{ 'is-invalid': submitted && f.couleur.errors }" />
+      @if (submitted && f.couleur.errors) {
+        <div class="invalid-feedback">
+          @if (f.couleur.errors.required) {
+            <div>Ce champ est obligatoire</div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Champ Icône -->
+    <div class="form-group col-sm-6">
+      <label class="form-label fw-semibold">Icône</label>
+      <ng-select formControlName="icone" [searchable]="true" [clearable]="true" bindLabel="description" placeholder="Choisir une icône">
+        <ng-option [value]="null">Aucune</ng-option>
+        @for (one_rubrique of data.icones; track $index) {
+          <ng-option [disabled]="true"> {{ one_rubrique.rubrique }} </ng-option>
+          @for (one_icone of one_rubrique.les_icones; track $index) {
+            <ng-option [value]="one_icone.icone">
+              <i class="bi me-2" [ngClass]="one_icone.icone"></i> {{ one_icone.description }}
+            </ng-option>
+          }
+        }
+      </ng-select>
+    </div>
+
+    <!-- Boutons -->
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary m-2"
+        [disabled]="loading_add_etat_projet || loading_get_details_add_etat_projet_form">
+        {{ loading_add_etat_projet ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>
+
+  </form>
+</div>

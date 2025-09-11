@@ -1,0 +1,65 @@
+<div class="modal-header" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">Détails {{(one_avenant?.index==0)?"Base":"Avenant"}}</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="modal-body">
+  <div class="d-flex flex-column pb-2 w-100 justify-content-around border border-1 rounded-2 fieldset-custom small">
+    <legend class="text-secondary">{{(one_avenant?.index==0)?"Base":"Avenant N°"+one_avenant?.index}}
+    </legend>
+
+    <div class="d-flex justify-content-around">
+      <div class=" d-flex flex-column">
+        <span class="text-secondary">N° {{(one_avenant?.index==0)?"Contrat":"Avenant"+one_avenant?.index}} : <span
+            class="text-black fw-bold">
+            {{one_avenant?.numero_contrat}}</span></span>
+        <span class="text-secondary">Ordre de service : <span class="text-black fw-bold">
+            {{api.format_date(one_avenant?.ordre_service).jma2}}</span></span>
+        <span class="text-secondary">Fin de contrat : <span class="text-black fw-bold">
+            {{api.format_date(one_avenant?.date_fin).jma2}}</span></span>
+        <span class="text-secondary">Montant contrat : <span class="text-black fw-bold">
+            {{api.formatNumber(one_avenant?.montant)}}</span></span>
+      </div>
+      <div class=" d-flex flex-column">
+        <span class="text-secondary">Durée : <span class="text-black fw-bold">
+            {{api.duree_en_mois(one_avenant?.ordre_service,one_avenant?.date_fin) }} mois</span></span>
+        <span class="text-secondary">Part de Solener : <span class="text-black fw-bold">
+            {{api.formatNumber((one_avenant?.pourcentage_solener/100)*one_avenant?.montant)}}</span></span>
+        <span class="text-secondary">Numero de Caution : <span class="text-black fw-bold">
+            {{(one_avenant?.numero_caution)}}</span></span>
+      </div>
+      <div class=" d-flex flex-column">
+        <span class="text-secondary">Bailleur : <span class="text-black fw-bold">
+            {{(one_avenant?.abreviation?.slice(0,10)||one_avenant?.nom_bailleur?.slice(0,20))||""}}</span></span>
+        <span class="text-secondary">Date d'expiration : <span class="text-black fw-bold">
+            {{(one_avenant?.date_expiration_avd)?api.format_date(one_avenant?.date_expiration_avd).jma2:""
+            }}</span></span>
+        <span class="text-secondary">Pourcentage AVD : <span class="text-black fw-bold">
+            {{(one_avenant?.date_expiration_avd)?one_avenant?.pourcentage_avd :""}}</span></span>
+        <span class="text-secondary">Montant AVD : <span class="text-black fw-bold">
+            {{(one_avenant?.pourcentage_avd)?api.formatNumber(one_avenant?.montant
+            *(one_avenant?.pourcentage_avd/100)):""}}</span></span>
+      </div>
+    </div>
+    <div class="text-center">
+      <span class="text-secondary" *ngIf="one_avenant?.index!==0">{{one_avenant?.motif}} </span>
+    </div>
+  </div>
+  <div class="d-flex flex-column pb-2 w-100 justify-content-around border border-1 rounded-2 fieldset-custom small">
+    <legend class="text-secondary">Fichier du contrat</legend>
+    <div class="row mt-2">
+      @for (one_fichier of les_fichiers; track $index) {
+      <div class="pdf-container text-center col-sm-6 mb-4 position-relative">
+        <iframe [src]="getSafeViewerUrl(one_fichier.piece_jointe)" width="100%" height="300px"
+          class="shadow-sm rounded-1 border-1">
+        </iframe>
+        <span span class="file-name">{{format_file_name(one_fichier.piece_jointe)}}</span>
+        <!-- <button class="btn btn-outline-primary p-0 m-0 me-2" (click)="delete_fichier(one_fichier)"> <i class="bi bi-trash"></i> </button> -->
+        <button type="button" class="btn btn-outline-primary p-0 m-0 me-2" 
+        (click)="delete_fichier(one_fichier, $event)">
+    <i class="bi bi-trash"></i>
+</button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

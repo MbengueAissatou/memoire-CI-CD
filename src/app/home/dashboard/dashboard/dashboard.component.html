@@ -1,0 +1,168 @@
+@if (loading_get_card_dashboard){
+<div class="m-5 p-5">
+  <h1 class="m-5 p-5 text-center">
+    Chargement en cours ...
+  </h1>
+</div>
+} @else {
+<div class="d-flex align-items-center justify-content-between">
+  <!-- Section gauche -->
+  <div class="d-flex justify-content-start w-75">
+    @if (date_period_choice!=5) {
+    <div class="form-group col-sm-6 me-2">
+      <select name="id_etat" class="form-select" [(ngModel)]="date_period_choice"
+        (change)="date_period_choice_change()">
+        <option value="1">Mensuel</option>
+        <option value="2">Trimestriel</option>
+        <!-- <option value="3">Semestriel</option> -->
+        <option value="4">Annuel</option>
+        <option value="5">Autres</option>
+      </select>
+    </div>
+    }
+    @if (date_period_choice==5) {
+    <div class="d-flex align-items-center col-sm-6">
+      <i class="bi bi-x-square fs-4 me-1" (click)="date_period_choice=4;date_period_choice_change()"></i>
+      <div class="input-group me-2">
+        <input [max]="filter.date_fin" type="date" class="form-control" id="exampleFormControlInput1"
+          [(ngModel)]="filter.date_debut" (input)="date_change()" />
+        <span class="input-group-text">au</span>
+        <input [min]="filter.date_debut" type="date" class="form-control" id="exampleFormControlInput1"
+          [(ngModel)]="filter.date_fin" (input)="date_change()" />
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Section droite -->
+  <div class="d-flex align-items-center justify-content-end">
+    <button class="btn btn-outline-primary"> <i class="bi bi-printer"></i> Imprimer</button>
+  </div>
+</div>
+<div class="row mb-2 mt-3 align-items-stretch">
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100" style="border-left: 9px solid #3e93b2;">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fs-5 ">
+            {{ les_donnees?.ca_mensuel?.[0]?.ca_mensuel | number:'1.0-0' }} FCFA
+          </div>
+          <div class="text-muted">Budget Total</div>
+        </div>
+        <i class="bi bi-cash-stack fs-2 text-success"></i>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100" style="border-left: 9px solid #198824;">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fs-4 ">
+            {{ les_donnees?.nb_facture?.[0]?.nb_factures }}
+          </div>
+          <div class="text-muted">Factures émises</div>
+        </div>
+        <i class="bi bi-file-earmark-text fs-2 text-primary"></i>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100" style="border-left: 9px solid #b84132;">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fs-4 ">
+            {{ les_donnees?.nb_facture_retard?.[0]?.nb_factures_retard }}
+          </div>
+          <div class="text-muted">Factures en retard</div>
+        </div>
+        <i class="bi bi-alarm fs-2 text-danger"></i>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100" style="border-left: 9px solid #B7673E;">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fs-4 ">
+            {{ les_donnees?.nb_clients_relancer }}
+          </div>
+          <div class="text-muted">Clients à relancer</div>
+        </div>
+        <i class="bi bi-telephone-outbound fs-2 text-warning"></i>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<!-- Pourcentage -->
+<div class=" mb-4 border border-1 rounded rounded-2 p-2">
+  <div class="row">
+    <div class="col-6 col-md-6 col-sm-6">
+      <app-pourcentage-montant [id_projet]=""></app-pourcentage-montant>
+    </div>
+    <div class="col-6 col-md-6 col-sm-6">
+      <app-montant-restant [id_projet]=""></app-montant-restant>
+    </div>
+  </div>
+</div>
+}
+<br>
+<!-- Nouveaux diagrammes -->
+<div class="row mt-4">
+  <!-- CA mensuel -->
+  <div class="col-md-12 mb-4">
+    <div class="card h-100">
+      <div class="card-header bg-light fw-bold">CA Mensuel</div>
+      <div class="card-body">
+        <app-ca-mensuel [les_stats]="les_stats"></app-ca-mensuel>
+      </div>
+    </div>
+  </div>
+
+  <!-- Montant facturé vs encaissé -->
+  <div class="col-md-12 mb-3">
+    <div class="card h-100">
+      <div class="card-header bg-light fw-bold">Facturé vs Encaissé</div>
+      <div class="card-body">
+        <app-montant-comparer [les_stats]="les_stats"></app-montant-comparer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Répartition du CA par client -->
+  <div class="col-md-12 col-lg-12 mb-3">
+    <div class="card h-100">
+      <div class="card-header bg-light fw-bold">CA par Client</div>
+      <div class="card-body">
+        <app-ca-par-client [les_stats]="les_stats"></app-ca-par-client>
+      </div>
+    </div>
+  </div>
+  <!-- Répartition du CA par client -->
+  <div class="col-md-6 col-lg-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header bg-light fw-bold">CA par Projet</div>
+      <div class="card-body">
+        <app-ca-par-projet [les_stats]="les_stats"></app-ca-par-projet>
+      </div>
+    </div>
+  </div>
+
+  <!-- Taux de facturation -->
+  <div class="col-md-6 col-lg-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header bg-light fw-bold">Taux de Facturation Par Client</div>
+      <div class="card-body">
+        <app-taux-facturation [les_stats]="les_stats"></app-taux-facturation>
+      </div>
+    </div>
+  </div>
+</div>

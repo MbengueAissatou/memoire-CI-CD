@@ -1,0 +1,13 @@
+<!-- Titre de section -->
+<li class="menu-header small text-uppercase  ps-2 pt-3">
+  {{ item.menu_header }}
+</li>
+<!-- Items de la section -->
+@for (menuItem of item.items; track menuItem) {
+  <li [routerLinkActive]="['active-link']" class="px-2">
+    <a [routerLink]="[menuItem.path]" (click)="closeOtherMenu($event)" class="d-flex align-items-center gap-2 py-2 px-3 rounded">
+      <i [class]="menuItem.icone" theme="outline"></i>
+      <span>{{ menuItem.text }}</span>
+    </a>
+  </li>
+}

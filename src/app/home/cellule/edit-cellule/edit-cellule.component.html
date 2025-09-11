@@ -1,0 +1,40 @@
+<div class="modal-header" data-bs-theme="ligth">
+        <h1 class="modal-title fs-5">Modifier cellule</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_edit_cellule" (ngSubmit)="onSubmit_edit_cellule()" #form_edit_cellule="ngForm" class="row">
+
+<!-- Nom Cellule field avec un contrôle de validité -->
+            <div class="form-group col-sm-12">
+              <label>Nom Cellule <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" formControlName="nom_cellule" placeholder="Nom Cellule" [ngClass]="{ 'is-invalid': submitted && f.nom_cellule.errors }"/>
+              @if (submitted && f.nom_cellule.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom_cellule.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Description field avec un contrôle de validité -->
+            <div class="form-group col-sm-12">
+              <label>Description</label>
+              <textarea class="form-control" type="text" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+              @if (submitted && f.description.errors) {
+                <div class="invalid-feedback">
+                  @if (f.description.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_cellule ||
+      loading_get_details_edit_cellule_form || form_edit_cellule.pristine" (click)="form_edit_cellule.ngSubmit.emit()">
+          {{ loading_edit_cellule ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

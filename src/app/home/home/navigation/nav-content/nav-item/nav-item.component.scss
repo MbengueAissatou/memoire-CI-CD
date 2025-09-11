@@ -1,0 +1,66 @@
+li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #1e1e1e;
+  font-weight: 400; /* pas en gras */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px 8px;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* trait fin, discret */
+  border-radius: 10px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 18px;
+}
+
+a:hover {
+  background-color: rgba(183, 103, 62, 0.1);
+  color: #B7673E;
+}
+
+li.active-link {
+  background-color: #B7673E;
+  border-radius: 10px;
+}
+
+li.active-link a {
+  color: #ffffff !important;
+  font-weight: 500; /* tu peux aussi mettre 600 si tu veux un léger gras uniquement à l'actif */
+}
+
+a i {
+  font-size: 22px;
+}
+
+// .menu-header {
+//   font-size: 14px;
+//   font-weight: 700;
+//   text-transform: uppercase;
+//   color: #777;
+//   padding: 16px 22px 8px;
+// }
+
+.menu-header {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #777;
+  padding: 16px 22px 8px;
+  position: relative;
+}
+
+.menu-header::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background-color: #B7673E;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+

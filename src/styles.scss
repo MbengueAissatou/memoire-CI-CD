@@ -1,0 +1,141 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+
+@import 'settings/color-variables';
+@import 'settings/theme-variables';
+@import 'settings/bootstrap-variables';
+
+@import 'bootstrap/bootstrap.scss';
+
+@import 'bootstrap/scss/utilities';
+@import 'bootstrap/scss/utilities/api';
+
+@import 'themes/generic.scss';
+@import 'themes/general.scss';
+@import 'themes/components/components.scss';
+
+@import 'themes/layouts/menu/sidebar.scss';
+@import 'themes/layouts/navbar/navbar.scss';
+@import 'themes/layouts/pc-common.scss';
+@import 'themes/layouts/breadcrumb/breadcrumb.scss';
+@import 'themes/layouts/footer/footer.scss';
+
+@import 'themes/preset-style.scss';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --primary-color: #B7673E;
+  /* Couleur principale : vert */
+  --btn-primary: #B7673E;
+  /* Couleur principale : vert */
+  --secondary-color: #2196f3;
+  /* Couleur secondaire : bleu */
+  --success-color: #66BB6A;
+  /* Vert clair pour les succès */
+  --danger-color: #ef5350;
+  /* Rouge doux pour les alertes */
+  --warning-color: #FFEB3B;
+  /* Jaune doux pour les avertissements */
+  --info-color: #BBDEFB;
+  /* Bleu clair pour les informations */
+  --light-color: #f5f5f5;
+  /* Couleur de fond clair */
+  --dark-color: #233446;
+  /* Couleur de texte foncé */
+
+  --bs-btn-active-bg: #B7673E;
+}
+.text-primary {
+  color: #B7673E;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: var(--primary-color) !important;
+  /* Couleur de fond au clic */
+  // border-color: var(--primary-color); /* Assurez-vous que la bordure correspond si nécessaire */
+  border: 1px var(--primary-color) solid !important;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color) !important;
+  /* Couleur de fond au clic */
+  border: 1px var(--primary-color) solid !important;
+}
+
+.btn-outline-primary:hover {
+  color: var(--primary-color) !important;
+  /* Couleur de fond au clic */
+  border: 2px var(--primary-color) solid !important;
+  background-color: white !important;
+}
+
+.btn-primary:hover {
+  border: 2px var(--primary-color) solid !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+  /* Couleur de fond au clic */
+}
+
+label {
+  color: #91959c !important;
+}
+
+
+.fieldset-custom {
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+}
+
+.fieldset-custom legend {
+  position: absolute;
+  top: -0.7em;
+  left: 1rem;
+  background: white;
+  padding: 0 0.5rem;
+  /* font-weight: bold; */
+  width: auto;
+  font-size: 16px;
+}
+
+
+// // list
+
+// .btn-dots:hover {
+//   background-color: rgba(0, 0, 0, 0.05);
+// }
+.card:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+}

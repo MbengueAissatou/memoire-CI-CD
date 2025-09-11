@@ -1,0 +1,25 @@
+.btn-dots:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+  transform: translateY(-5px);
+}
+
+.custom-modal-class .modal-content {
+  border-radius: 1rem;
+  border: 10px solid #ccc;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  padding: 2px;
+}
+.progress.large {
+  height: 10px;
+  border-radius: 20px;
+}
+.progress-bar {
+  transition: width 0.5s ease;
+}
+

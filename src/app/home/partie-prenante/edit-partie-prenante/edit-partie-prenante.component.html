@@ -1,0 +1,100 @@
+<div class="modal-header" data-bs-theme="ligth">
+        <h1 class="modal-title fs-5">Modifier partie_prenante</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_edit_partie_prenante" (ngSubmit)="onSubmit_edit_partie_prenante()" #form_edit_partie_prenante="ngForm" class="row">
+        
+<!-- Nom field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Nom</label>
+              <input class="form-control" type="text" formControlName="nom" placeholder="Nom" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"/>
+              @if (submitted && f.nom.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Prenom field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Prenom</label>
+              <input class="form-control" type="text" formControlName="prenom" placeholder="Prenom" [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"/>
+              @if (submitted && f.prenom.errors) {
+                <div class="invalid-feedback">
+                  @if (f.prenom.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Fonction field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Fonction</label>
+              <input class="form-control" type="text" formControlName="fonction" placeholder="Fonction" [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"/>
+              @if (submitted && f.fonction.errors) {
+                <div class="invalid-feedback">
+                  @if (f.fonction.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Telephone field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Telephone</label>
+              <input class="form-control" type="text" formControlName="telephone" placeholder="Telephone" [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }"/>
+              @if (submitted && f.telephone.errors) {
+                <div class="invalid-feedback">
+                  @if (f.telephone.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Email field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Email</label>
+              <input class="form-control" type="text" formControlName="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              @if (submitted && f.email.errors) {
+                <div class="invalid-feedback">
+                  @if (f.email.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Created At field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Created At</label>
+              <input class="form-control" type="text" formControlName="created_at" placeholder="Created At" [ngClass]="{ 'is-invalid': submitted && f.created_at.errors }"/>
+              @if (submitted && f.created_at.errors) {
+                <div class="invalid-feedback">
+                  @if (f.created_at.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Updated At field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Updated At</label>
+              <input class="form-control" type="text" formControlName="updated_at" placeholder="Updated At" [ngClass]="{ 'is-invalid': submitted && f.updated_at.errors }"/>
+              @if (submitted && f.updated_at.errors) {
+                <div class="invalid-feedback">
+                  @if (f.updated_at.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_partie_prenante ||
+      loading_get_details_edit_partie_prenante_form" (click)="form_edit_partie_prenante.ngSubmit.emit()">
+          {{ loading_edit_partie_prenante ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

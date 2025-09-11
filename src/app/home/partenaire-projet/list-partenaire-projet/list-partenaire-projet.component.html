@@ -1,0 +1,37 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">PartenaireProjet  - {{les_partenaire_projets.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_partenaire_projet()">Ajouter PartenaireProjet</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_partenaire_projet</th>
+<th scope="col">id_projet</th>
+<th scope="col">id_partenaire</th>
+<th scope="col">pourcentage_montant_base</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_partenaire_projet of les_partenaire_projets; track one_partenaire_projet) {
+          <tr>
+            <td>{{one_partenaire_projet.id_partenaire_projet}}</td>
+<td>{{one_partenaire_projet.id_projet}}</td>
+<td>{{one_partenaire_projet.id_partenaire}}</td>
+<td>{{one_partenaire_projet.pourcentage_montant_base}}</td>
+<td>{{one_partenaire_projet.created_at}}</td>
+<td>{{one_partenaire_projet.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_partenaire_projet(one_partenaire_projet)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_partenaire_projet(one_partenaire_projet)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

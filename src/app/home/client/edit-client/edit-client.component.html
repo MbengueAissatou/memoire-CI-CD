@@ -1,0 +1,95 @@
+<div class="modal-header" data-bs-theme="ligth">
+        <h1 class="modal-title fs-5">Modifier client</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_edit_client" (ngSubmit)="onSubmit_edit_client()" #form_edit_client="ngForm" class="row">
+
+<!-- Champs Id Pays avec un contrôle de validité : clé étrangère liée à la colonne id_pays de la table pays -->
+            <div class="form-group col-sm-6">
+              <label>Pays <span class="text-danger">*</span></label>
+              <select [ngClass]="{ 'is-invalid': submitted && f.id_pays.errors }" class="form-select" formControlName="id_pays">
+                <option value="">Sélectionnez un(e) Pays</option>
+                @for (one_pays of form_details?.les_payss; track $index) {
+                  <option [value]="one_pays.id_pays">
+                    {{one_pays.nom_pays}}
+                  </option>
+                }
+              </select>
+              @if (submitted && f.id_pays.errors) {
+                <div class="invalid-feedback">
+                  @if (f.id_pays.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Nom field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Nom <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" formControlName="nom" placeholder="Nom" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"/>
+              @if (submitted && f.nom.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Telephone field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Telephone</label>
+              <input class="form-control" type="text" formControlName="telephone" placeholder="Telephone" [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }"/>
+              @if (submitted && f.telephone.errors) {
+                <div class="invalid-feedback">
+                  @if (f.telephone.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Email field avec un contrôle de validité -->
+            <div class="form-group col-sm-6">
+              <label>Email</label>
+              <input class="form-control" type="text" formControlName="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              @if (submitted && f.email.errors) {
+                <div class="invalid-feedback">
+                  @if (f.email.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Description field avec un contrôle de validité -->
+            <div class="form-group col-sm-12">
+              <label>Description</label>
+              <textarea class="form-control" type="text" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" row="3"></textarea>
+              @if (submitted && f.description.errors) {
+                <div class="invalid-feedback">
+                  @if (f.description.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Logo field avec un contrôle de validité -->
+            <div class="form-group col-sm-12">
+              <label>Logo</label>
+              <input class="form-control" type="file" formControlName="logo" placeholder="Logo" [ngClass]="{ 'is-invalid': submitted && f.logo.errors }"/>
+              @if (submitted && f.logo.errors) {
+                <div class="invalid-feedback">
+                  @if (f.logo.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_client ||
+      loading_get_details_edit_client_form ||reactiveForm_edit_client.pristine" (click)="form_edit_client.ngSubmit.emit()">
+          {{ loading_edit_client ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

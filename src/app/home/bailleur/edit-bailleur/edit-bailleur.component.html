@@ -1,0 +1,82 @@
+<div class="modal-header" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">Modifier bailleur</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="reactiveForm_edit_bailleur" (ngSubmit)="onSubmit_edit_bailleur()" #form_edit_bailleur="ngForm"
+    class="row">
+
+    <!-- Nom Bailleur field avec un contrôle de validité -->
+    <div class="form-group col-sm-12">
+      <label>Nom Bailleur <span class="text-danger">*</span></label>
+      <input class="form-control" type="text" formControlName="nom_bailleur" placeholder="Nom Bailleur"
+        [ngClass]="{ 'is-invalid': submitted && f.nom_bailleur.errors }" />
+      @if (submitted && f.nom_bailleur.errors) {
+      <div class="invalid-feedback">
+        @if (f.nom_bailleur.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Champ Abreviation Bailleur -->
+    <div class="form-group col-sm-12">
+      <label>Abréviation <span class="text-danger">*</span></label>
+      <input class="form-control" type="text" formControlName="abreviation" placeholder="Nom Bailleur"
+        [ngClass]="{ 'is-invalid': submitted && f.abreviation.errors }" />
+      @if (submitted && f.abreviation.errors) {
+      <div class="invalid-feedback">
+        @if (f.abreviation.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Description field avec un contrôle de validité -->
+    <div class="form-group col-sm-12">
+      <label>Description</label>
+      <textarea class="form-control" type="text" formControlName="description" placeholder="Description"
+        [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+      @if (submitted && f.description.errors) {
+      <div class="invalid-feedback">
+        @if (f.description.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Nom Point Focal field avec un contrôle de validité -->
+    <div class="form-group col-sm-6">
+      <label>Nom Point Focal</label>
+      <input class="form-control" type="text" formControlName="nom_point_focal" placeholder="Nom Point Focal"
+        [ngClass]="{ 'is-invalid': submitted && f.nom_point_focal.errors }" />
+      @if (submitted && f.nom_point_focal.errors) {
+      <div class="invalid-feedback">
+        @if (f.nom_point_focal.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Numero Point Focal field avec un contrôle de validité -->
+    <div class="form-group col-sm-6">
+      <label>Numero Point Focal</label>
+      <input class="form-control" type="text" formControlName="numero_point_focal" placeholder="Numero Point Focal"
+        [ngClass]="{ 'is-invalid': submitted && f.numero_point_focal.errors }" />
+      @if (submitted && f.numero_point_focal.errors) {
+      <div class="invalid-feedback">
+        @if (f.numero_point_focal.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_bailleur ||
+      loading_get_details_edit_bailleur_form ||form_edit_bailleur.pristine" (click)="form_edit_bailleur.ngSubmit.emit()">
+    {{ loading_edit_bailleur ? "En cours ..." : "Valider" }}
+  </button>
+  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+</div>

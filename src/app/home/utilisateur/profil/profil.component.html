@@ -1,0 +1,161 @@
+@if (userConnected) {
+<main>
+    <div class="mainContainerLeft bg-white rounded-3 pt-3">
+        <div class="mainContainerLeftImage">
+            <div class="image"></div>
+        </div>
+        <div class="mainContainerLeftInfo px-3 pb-3">
+            <h4 class="text-center p-2 w-100 fw-semibold">Information personnelle</h4>
+            <div class="mainContainerLeftInfoDetail px-4">
+                <h5 class="mb-4">
+                    Nom :
+                    <span>{{ userConnected.prenom + " " + userConnected.nom }}</span>
+                </h5>
+                <h5 class="mb-4">
+                    Email : <span>{{ userConnected.email }}</span>
+                </h5>
+                <h5 class="mb-4">
+                    Adresse : <span>{{ userConnected.adresse }}</span>
+                </h5>
+                <h5 class="mb-4">
+                    Telephone : <span>{{ userConnected.telephone }}</span>
+                </h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="mainContainerRight bg-white p-3 rounded-3">
+        <div class="card bg-white pt-3 rounded-3">
+            <ul class="nav nav-pills ms-4" id="pills-tab" role="tablist">
+                <li  class="nav-item"
+                    role="presentation">
+                    <button class="nav-link active navTabsButton" id="updateInfo-tab" data-bs-toggle="pill"
+                        data-bs-target="#updateInfo" type="button" role="tab" aria-controls="updateInfo"
+                        aria-selected="true">
+                        Modifier Information
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link navTabsButton"
+                        id="updatePassword-tab" data-bs-toggle="pill" data-bs-target="#updatePassword" type="button"
+                        role="tab" aria-controls="updatePassword">
+                        Modifier Mot de passe
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content w-100 h-100" id="pills-tabContent">
+                <div
+                    class="tab-pane fade show active"
+                    id="updateInfo" role="tabpanel" aria-labelledby="updateInfo-tab" tabindex="0">
+                    <form [formGroup]="reactiveForm_edit_employe" (ngSubmit)="onSubmit_edit_employe_info()"
+                        #form_edit_employe="ngForm" class="row">
+                        <!-- nom field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Nom <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="nom" placeholder="nom"
+                                [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" />
+                            <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+                                <div *ngIf="f.nom.errors.required">nom est obligatoire</div>
+                            </div>
+                        </div>
+                        <!-- prenom field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Prénom <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="prenom" placeholder="prenom"
+                                [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }" />
+                            <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+                                <div *ngIf="f.prenom.errors.required">prenom est obligatoire</div>
+                            </div>
+                        </div>
+                        <!-- telephone field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Téléphone <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="telephone" placeholder="telephone"
+                                [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }" />
+                            <div *ngIf="submitted && f.telephone.errors" class="invalid-feedback">
+                                <div *ngIf="f.telephone.errors.required">
+                                    telephone est obligatoire
+                                </div>
+                            </div>
+                        </div>
+                        <!-- adresse field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Adresse <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="adresse" placeholder="adresse"
+                                [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }" />
+                            <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+                                <div *ngIf="f.adresse.errors.required">
+                                    adresse est obligatoire
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center m-2">
+                        <button type="button" class="btn btn-primary col-5 m-2" [disabled]="loading_edit_employe"
+                            (click)="form_edit_employe.ngSubmit.emit()">
+                            {{ loading_edit_employe ? "En cours ..." : "Valider" }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade "
+                    id="updatePassword" role="tabpanel" aria-labelledby="updatePassword-tab" tabindex="0">
+                    <form [formGroup]="reactiveForm_edit_employe" (ngSubmit)="onSubmit_edit_employe_info()"
+                        #form_edit_employe="ngForm" class="row">
+                        <!-- password field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Ancien mot de passe <span class="text-danger">*</span></label>
+                            <input class="form-control" type="password" formControlName="ancien_pwd"
+                                placeholder="Veuillez saisir l'ancien mot de passe"
+                                [ngClass]="{ 'is-invalid': submitted && f.ancien_pwd.errors }" />
+                            <div *ngIf="submitted && f.ancien_pwd.errors" class="invalid-feedback">
+                                <div *ngIf="f.ancien_pwd.errors.required">
+                                    login est obligatoire
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- confirmation field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Nouveau mot de passe
+                                <span class="text-danger">*</span></label>
+                            <input class="form-control" type="password" formControlName="nouveau_pwd"
+                                placeholder="Veuillez confirmer le nouveau mot de passe"
+                                [ngClass]="{ 'is-invalid': submitted && f.nouveau_pwd.errors }" />
+                            <div *ngIf="submitted && f.nouveau_pwd.errors" class="invalid-feedback">
+                                <div *ngIf="f.nouveau_pwd.errors.required">
+                                    login est obligatoire
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- confirmation field avec un control de validite -->
+                        <div class="form-group col-sm-12">
+                            <label>Confirmation de mot de passe
+                                <span class="text-danger">*</span></label>
+                            <input class="form-control" type="password" formControlName="confirmation_pwd"
+                                placeholder="Veuillez confirmer le nouveau mot de passe"
+                                [ngClass]="{ 'is-invalid': submitted && f.confirmation_pwd.errors }" />
+
+                            <div *ngIf="submitted && f.confirmation_pwd.errors" class="invalid-feedback">
+                                <div *ngIf="f.confirmation_pwd.errors.required">
+                                    login est obligatoire
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center m-2">
+                        <button type="button" class="btn btn-primary col-5 m-2" [disabled]="loading_edit_employe"
+                            (click)="form_edit_employe.ngSubmit.emit()">
+                            {{ loading_edit_employe ? "En cours ..." : "Valider" }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+}

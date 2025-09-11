@@ -1,0 +1,65 @@
+<!-- entete -->
+<div class="d-flex align-items-center justify-content-between   p-2  mb-4">
+  <div class="fs-5">Circuits d'approbation - {{les_circuit_approbation_des_facturess.length}}</div>
+  <div class="d-flex">
+    <button class="btn btn-primary" (click)="openModal_add_circuit_approbation_des_factures()"><i
+        class="bi bi-plus-square-dotted"></i>
+      Circuit Approbation</button>
+  </div>
+</div>
+
+
+<!-- contenu sous format carte -->
+<div class="row g-4"
+  *ngIf="!loading_get_circuit_approbation_des_factures && les_circuit_approbation_des_facturess.length > 0">
+  @for (one_circuit of les_circuit_approbation_des_facturess; track one_circuit;let index=$index) {
+  <ng-container>
+    <div class="col-sm-6 col-md-4 col-lg-4">
+      <div class="card border-1 rounded-3 transition-hover position-relative">
+        <div class="card-body p-4 fieldset-custom border-0">
+          <!-- Menu trois points (actions) -->
+          <div class="position-absolute top-0 end-0 m-2">
+            <div class="dropdown">
+              <button type="button" class="btn btn-light btn-sm rounded-circle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
+                <li>
+                  <button class="dropdown-item d-flex align-items-center" type="button"
+                    (click)="openModal_edit_circuit_approbation_des_factures(one_circuit)">
+                    <i class="bi bi-pencil me-2 text-primary"></i> Modifier
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Contenu de la carte -->
+          <!-- <h5 class="card-title text-start fw-semibold text-dark mb-3">
+            {{ "Etape "+ (+index+1)}}
+          </h5> -->
+     <legend class="text-secondary">{{ "Etape "+ (+index+1)}}</legend>
+          <!-- Informations supplémentaires -->
+          <div class="text-muted small d-flex flex-column justify-content-between align-items-center">
+            <span class="w-100"><i class="bi bi-house me-1"></i> {{one_circuit.service}}</span>
+            <span class="w-100"><i class="bi bi-people me-1"></i> {{(one_circuit.prenom||'')+' '+(one_circuit.nom||'')}}</span>
+            <span class="w-100"><i class="bi bi-phone me-1"></i> {{one_circuit.telephone}}</span>
+            <span class="w-100"><i class="bi bi-envelope me-1"></i> {{one_circuit.email}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  }
+</div>
+<!-- Empty state -->
+<div *ngIf="!loading_get_circuit_approbation_des_factures && les_circuit_approbation_des_facturess.length === 0"
+  class="text-center py-5">
+  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#6c757d" class="bi bi-info-circle mb-3"
+    viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+    <path
+      d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+  </svg>
+  <p class="fs-5 text-muted">Pas de données</p>
+</div>

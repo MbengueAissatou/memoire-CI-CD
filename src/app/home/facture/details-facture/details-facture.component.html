@@ -1,0 +1,45 @@
+<div class="modal-header btn-primary text-white" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">Facture N<sup>o</sup>{{facture.numero_facture}}</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="d-flex pb-2 w-100 justify-content-around rounded-2 small mt-2">
+  <div class=" d-flex flex-column">
+    <span class="text-secondary">Contrat N<sup>o</sup> : <span class="text-black fw-bold">
+        {{facture.numero_contrat}}</span></span>
+    <span class="text-secondary">Date d'émission : <span class="text-black fw-bold">
+        {{api.format_date(facture?.date_emission).jma2}}</span></span>
+    <span class="text-secondary">Montant décompte : <span class="text-black fw-bold">
+        {{api.formatNumber(facture?.montant_decompte)}}</span></span>
+  </div>
+  <div class=" d-flex flex-column">
+    <span class="text-secondary">Montant AVD : <span class="text-black fw-bold">
+        {{api.formatNumber(stats.montant_avd)}}</span></span>
+    <span class="text-secondary">Montant après AVD : <span class="text-black fw-bold">
+        {{api.formatNumber(stats.montant_apres_avd) }}</span></span>
+    <span class="text-secondary">Part de Solener : <span class="text-black fw-bold">
+        {{api.formatNumber(stats.part_solener)}}</span></span>
+  </div>
+  <!-- <div class=" d-flex flex-column">
+    <span class="text-secondary">Date d'expiration : <span class="text-black fw-bold">
+        {{api.format_date(facture?.date_expiration_avd).jma2}}</span></span>
+    <span class="text-secondary">Pourcentage AVD : <span class="text-black fw-bold">
+        {{facture?.pourcentage_avd}} %</span></span>
+    <span class="text-secondary">Montant AVD : <span class="text-black fw-bold"> {{api.formatNumber(facture?.montant
+        *(facture?.pourcentage_avd/100))}}</span></span>
+  </div> -->
+</div>
+
+<div class="d-flex justify-content-between w-75 m-auto mt-2 fieldset-custom">
+  <legend class="text-secondary">Objet </legend>
+  <span>
+    {{facture?.objet||''}}
+  </span>
+</div>
+<div class="d-flex justify-content-between w-75 m-auto my-4 fieldset-custom">
+  <legend class="text-secondary">Circuit d'approbation </legend>
+  @for (one_circuit of les_circuits; track $index;let index=$index) {
+    <div class="">
+      <input type="checkbox" [checked]="(one_circuit.id_facture != null)" (input)="submit_add_circuit_facture(one_circuit)"> Etape {{index+1}}
+    </div>
+  }
+</div>

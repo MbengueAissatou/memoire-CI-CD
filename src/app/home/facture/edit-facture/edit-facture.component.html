@@ -1,0 +1,152 @@
+<div class="modal-header" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">Modifier facture</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="reactiveForm_edit_facture" (ngSubmit)="onSubmit_edit_facture()" #form_edit_facture="ngForm"
+    class="row">
+    <!-- Champ Id Projet (Clé étrangère vers projet) -->
+    <div class="form-group col-sm-6">
+      <label>Projet <span class="text-danger">*</span></label>
+      <select [ngClass]="{ 'is-invalid': submitted && f.id_projet.errors }" class="form-select"
+        formControlName="id_projet">
+        <option value="">Sélectionnez un(e) Projet</option>
+        @for (one_projet of form_details?.les_projets; track $index) {
+        <option [value]="one_projet.id_projet">
+          {{one_projet.nom }}
+        </option>
+        }
+      </select>
+      @if (submitted && f.id_projet.errors) {
+      <div class="invalid-feedback">
+        @if (f.id_projet.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Champ Id Projet (Clé étrangère vers projet) -->
+    <div class="form-group col-sm-6">
+      <label>Base/Avenant <span class="text-danger">*</span></label>
+      <select [ngClass]="{ 'is-invalid': submitted && f.id_avenant.errors }" class="form-select"
+        formControlName="id_avenant">
+        <option value="">Sélectionnez un(e) Base/Avenant</option>
+        @for (one_avenant of les_avenants; track $index;let index=$index) {
+        <option [value]="one_avenant.id_avenant">
+          {{(index==0)?"Base":"Avenant N°"+index}}
+          <!-- {{one_avenant.numero_contrat }} -->
+        </option>
+        }
+      </select>
+      @if (submitted && f.id_avenant.errors) {
+      <div class="invalid-feedback">
+        @if (f.id_avenant.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Champ Date Emission -->
+    <div class="form-group col-sm-6">
+      <label>Date Emission <span class="text-danger">*</span></label>
+      <input class="form-control" type="date" formControlName="date_emission" placeholder="Date Emission"
+        [ngClass]="{ 'is-invalid': submitted && f.date_emission.errors }" />
+      @if (submitted && f.date_emission.errors) {
+      <div class="invalid-feedback">
+        @if (f.date_emission.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Champ Numero Facture -->
+    <div class="form-group col-sm-6">
+      <label>Numero Facture <span class="text-danger">*</span></label>
+      <input class="form-control" type="text" formControlName="numero_facture" placeholder="Numero Facture"
+        [ngClass]="{ 'is-invalid': submitted && f.numero_facture.errors }" />
+      @if (submitted && f.numero_facture.errors) {
+      <div class="invalid-feedback">
+        @if (f.numero_facture.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+<!-- Champ Montant Decompte -->
+    <div class="form-group col-sm-6">
+      <label>Montant Décompte <span class="text-danger">*</span></label>
+    <input class="form-control"
+       type="text"
+       placeholder="Montant Décompte"
+       [value]="formatNumber(f.montant_decompte.value)"
+       (input)="onInputMontant('montant_decompte', $event)"
+       [ngClass]="{ 'is-invalid': submitted && f.montant_decompte.errors }" />
+      @if (submitted && f.montant_decompte.errors) {
+      <div class="invalid-feedback">
+        @if (f.montant_decompte.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+
+
+    <!-- Champ Id Statut Facture (Clé étrangère vers statut_facture) -->
+    <div class="form-group col-sm-6">
+      <label>Statut Facture <span class="text-danger">*</span></label>
+      <select [ngClass]="{ 'is-invalid': submitted && f.id_statut_facture.errors }" class="form-select"
+        formControlName="id_statut_facture">
+        <option value="">Sélectionnez un(e) Statut Facture</option>
+        @for (one_statut_facture of form_details?.les_statut_factures; track $index) {
+        <option [value]="one_statut_facture.id_statut_facture">
+          {{ one_statut_facture.nom }}
+        </option>
+        }
+      </select>
+      @if (submitted && f.id_statut_facture.errors) {
+      <div class="invalid-feedback">
+        @if (f.id_statut_facture.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+
+        <!-- Champ Montant reçu -->
+    <div class="form-group col-sm-12">
+      <label>Montant Reçu</label>
+      <input class="form-control" type="text" placeholder="Montant Reçu"
+        [value]="formatNumber(f.montant_encaisse.value)" (input)="onInputMontant('montant_encaisse', $event)"
+        [ngClass]="{ 'is-invalid': submitted && f.montant_encaisse.errors }" />
+      @if (submitted && f.montant_encaisse.errors) {
+      <div class="invalid-feedback">
+        @if (f.montant_encaisse.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Champ Objet -->
+    <div class="form-group col-sm-12">
+      <label>Objet</label>
+      <textarea class="form-control" type="text" formControlName="objet" placeholder="Objet"
+        [ngClass]="{ 'is-invalid': submitted && f.objet.errors }" rows="3"></textarea>
+      @if (submitted && f.objet.errors) {
+      <div class="invalid-feedback">
+        @if (f.objet.errors.required) {
+        <div>Ce champ est obligatoire</div>
+        }
+      </div>
+      }
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_facture ||
+      loading_get_details_edit_facture_form" (click)="form_edit_facture.ngSubmit.emit()">
+    {{ loading_edit_facture ? "En cours ..." : "Valider" }}
+  </button>
+  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+</div>

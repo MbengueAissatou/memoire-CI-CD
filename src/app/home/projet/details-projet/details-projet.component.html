@@ -1,0 +1,244 @@
+<!-- Loading state -->
+<ng-container *ngIf="loading_get_detail_projet">
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement en cours...</span>
+    </div>
+    <p class="mt-2 text-muted fs-5">Chargement en cours...</p>
+  </div>
+</ng-container>
+
+@if (!loading_get_detail_projet) {
+<!-- entete -->
+<div
+  class="d-flex flex-column align-items-center justify-content-between bg-white shadow-sm rounded rounded-2 mb-4 border border-1">
+
+  <!-- Barre titre avec flèche -->
+  <div class="d-flex align-items-center w-100">
+    <i class="bi bi-caret-left-fill clique"
+      style="cursor: pointer; font-size: 25px; color: #B7673E; position: absolute; top: 15px; left: 8px;"
+      (click)="api.go_back()"></i>
+    <!-- Icône édition (haut droite) -->
+    <i class="bi bi-pencil-square"
+      style="cursor: pointer; font-size: 25px; color: #B7673E; position: absolute; top: 15px; right: 10px;"
+      (click)="openModal_edit_projet(selected_projet)"></i>
+
+    <h3 class="fs-3 py-2 text-center text-white btn-primary flex-grow-1 m-0 rounded-end rounded-1">
+      {{selected_projet?.nom}}
+      <span class="small" style="font-size: 16px;">({{selected_projet?.code_projet}})</span>
+    </h3>
+  </div>
+
+  <!-- Projet -->
+  <div class="px-3 pt-3 w-100">
+    <div class="w-100 justify-content-around border border-1 rounded-2 fieldset-custom small">
+      <legend class="text-secondary">Projet</legend>
+      <div class="w-100 m-auto px-2">
+        <div class="text-muted small d-flex justify-content-between align-items-center">
+          <div><i class="bi bi-house me-1"></i> <span>{{selected_projet.nom_cellule}}</span></div>
+          <div><i class="bi bi-people me-1"></i> <span>{{selected_projet.nom_client}}</span></div>
+          <div><i class="bi bi-file-earmark-ruled me-1"></i> <span>Condition de facturation :
+              {{selected_projet.condition_facture}} mois</span></div>
+          <div><i class="bi bi-alarm me-1"></i> <span>Délai de règlement de facture :
+              {{selected_projet.delais_reglement_facture}} jours</span></div>
+        </div>
+      </div>
+      <div class="w-100 m-auto px-2 mt-2">
+        <div class="text-muted small d-flex justify-content-between align-items-center">
+          <div><i class="bi bi-percent"></i> <span> Solener ({{selected_projet.pourcentage_solener}}%)</span></div>
+          @for (one_partenaire of selected_projet.les_partenaires; track $index; let index=$index) {
+          <div><i class="bi bi-percent"></i> <span> {{one_partenaire.nom_partenaire}}
+              ({{one_partenaire.pourcentage_partenaire}}%)</span></div>
+          }
+        </div>
+      </div>
+      <div class="w-100 m-auto px-2 mt-3 d-flex justify-content-center">
+        <div class="bg-light rounded-2 p-3 text-center shadow-sm d-flex align-items-center"
+          style="border-left: 4px solid #B7673E;">
+          <div class="w-100">
+            <h3 class="mb-0" style="color: #B7673E;">
+              {{ api.formatNumber(montant_total_projet) }} FCFA
+            </h3>
+            <small class="text-uppercase text-secondary mt-1 d-block">
+              <i class="bi bi-cash me-1"></i> Montant total du projet
+            </small>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  <!-- Avenants -->
+  <div class="px-3 pt-3 w-100">
+    @for (one_avenant of les_avenants; track $index; let index=$index) {
+    <div class="d-flex flex-column pb-2 w-100 justify-content-around rounded-2 fieldset-custom small "
+    [ngClass]="{'border-status-acheve':one_avenant.id_etat_avenant==3,
+    'border-status-en-cours':one_avenant.id_etat_avenant==2,
+    'border-status-en-attente':one_avenant.id_etat_avenant==1,
+    'border-status-suspendu':one_avenant.id_etat_avenant==4}">
+      <legend class="text-secondary">{{(index==0)?"Base":"Avenant N°"+index}}
+        <button class="btn p-0 m-0 me-2 border-0 bg-transparent"
+          (click)="openModal_edit_avenant_projet(one_avenant,index)">
+          <i class="bi bi-pencil"></i> </button>
+        <button class="btn p-0 m-0 me-2 border-0 bg-transparent"
+          (click)="openModal_details_avenant_projet(one_avenant,index)">
+          <i class="bi bi-eye"></i> </button>
+      </legend>
+
+      <div class="d-flex justify-content-around">
+        <div class=" d-flex flex-column">
+          <span class="text-secondary">N° {{(index==0)?"Contrat":"Avenant"+index}} : <span class="text-black fw-bold">
+              {{one_avenant?.numero_contrat}}</span></span>
+          <span class="text-secondary">Ordre de service : <span class="text-black fw-bold">
+              {{api.format_date(one_avenant?.ordre_service).jma2}}</span></span>
+          <span class="text-secondary">Fin de contrat : <span class="text-black fw-bold">
+              {{api.format_date(one_avenant?.date_fin).jma2}}</span></span>
+          <span class="text-secondary">Montant contrat : <span class="text-black fw-bold">
+              {{api.formatNumber(one_avenant?.montant)}}</span></span>
+        </div>
+        <div class=" d-flex flex-column">
+          <span class="text-secondary">Durée : <span class="text-black fw-bold">
+              {{duree_en_mois(one_avenant?.ordre_service,one_avenant?.date_fin) }} mois</span></span>
+          <span class="text-secondary">Part de Solener : <span class="text-black fw-bold">
+              {{api.formatNumber((selected_projet.pourcentage_solener/100)*one_avenant?.montant)}}</span></span>
+          <span class="text-secondary">Numero de Caution : <span class="text-black fw-bold">
+              {{(one_avenant?.numero_caution)}}</span></span>
+        </div>
+        <div class=" d-flex flex-column">
+          <span class="text-secondary">Bailleur : <span class="text-black fw-bold">
+              {{(one_avenant?.abreviation?.slice(0,10)||one_avenant?.nom_bailleur?.slice(0,20))||""}}</span></span>
+          <span class="text-secondary">Date d'expiration : <span class="text-black fw-bold">
+              {{(one_avenant?.date_expiration_avd)?api.format_date(one_avenant?.date_expiration_avd).jma2:""
+              }}</span></span>
+          <span class="text-secondary">Pourcentage AVD : <span class="text-black fw-bold">
+              {{(one_avenant?.date_expiration_avd)?one_avenant?.pourcentage_avd :""}}</span></span>
+          <span class="text-secondary">Montant AVD : <span class="text-black fw-bold">
+              {{(one_avenant?.pourcentage_avd)?api.formatNumber(one_avenant?.montant
+              *(one_avenant?.pourcentage_avd/100)):""}}</span></span>
+        </div>
+      </div>
+      <!-- <div class="text-center">
+        <span class="text-secondary" *ngIf="index!==0">{{one_avenant.motif}} </span>
+      </div> -->
+    </div>
+    }
+  </div>
+  <div class="d-flex w-100 justify-content-end pb-4 px-3">
+    <button class="btn btn-primary" (click)="openModal_add_avenant()"><i class="bi bi-plus-square-dotted"></i>
+      Avenant</button>
+  </div>
+</div>
+<!-- chiffrage -->
+<div class="p-3 bg-white shadow-sm rounded-2 mb-4 pb-4 border border-1">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 w-100 m-auto">
+
+    <!-- Total décompte -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-primary rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-primary mb-0">{{ stats.total_decompte }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-stack me-1"></i> Total décompte
+        </small>
+      </div>
+    </div>
+
+    <!-- Décompte réalisé -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-success rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-success mb-0">{{ stats.decompte_realise }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-check2-circle me-1"></i> Décompte réalisé
+        </small>
+      </div>
+    </div>
+
+    <!-- Décompte restant -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-info rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-info mb-0">{{ stats.decompte_restant }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-clock-history me-1"></i> Décompte restant
+        </small>
+      </div>
+    </div>
+
+    <!-- Décompte en litige -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-dark rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-dark mb-0">{{ stats.decompte_en_litige }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-exclamation-triangle me-1"></i> Décompte en litige
+        </small>
+      </div>
+    </div>
+
+    <!-- Facture non payée -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-danger rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-danger mb-0">{{ stats.facture_non_paye }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-x-circle me-1"></i> Facture non payée
+        </small>
+      </div>
+    </div>
+
+    <!-- Prochaine facture -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-secondary rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-secondary mb-0">{{ stats.prochaine_facture }} jours</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-calendar-event me-1"></i> Prochaine facture
+        </small>
+      </div>
+    </div>
+
+    <!-- Cumul des montants -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-success rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-success mb-0">{{ api.formatNumber(stats.cumul_montant) }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-piggy-bank me-1"></i> Montants reçu
+        </small>
+      </div>
+    </div>
+
+    <!-- Montant restant à facturer -->
+    <div class="col">
+      <div class="bg-light border-start border-4 border-warning rounded-2 p-3 text-center shadow-sm">
+        <h3 class="fw-bold text-warning mb-0">{{ api.formatNumber(stats.montant_restant_a_facturer) }}</h3>
+        <small class="text-uppercase text-secondary mt-1 d-block">
+          <i class="bi bi-cash-stack me-1"></i> Restant à facturer
+        </small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Pourcentage -->
+<div class=" mb-4 border border-1 rounded rounded-2 p-2">
+  <div class="row justify-content-center gx-3">
+    <div class="col-12 col-md-4  d-flex justify-content-center align-items-center loaderchart">
+      <app-pourcentage-partenaire></app-pourcentage-partenaire>
+    </div>
+    <div class="col-12 col-md-4  d-flex justify-content-center align-items-center loaderchart">
+      <app-pourcentage-montant [id_projet]="api.id_projet()"></app-pourcentage-montant>
+    </div>
+    <div class="col-12 col-md-4  d-flex justify-content-center align-items-center loaderchart">
+      <app-montant-restant [id_projet]="api.id_projet()"></app-montant-restant>
+    </div>
+  </div>
+</div>
+<!-- Facturation -->
+<div class="p-2 bg-white shadow-sm rounded rounded-2 mb-4 pb-4 border border-1">
+  <app-list-facture (cb_after_change)="update_change_facture($event)"></app-list-facture>
+</div>
+<!-- Circuit d'approbation -->
+<div class="p-2 bg-white shadow-sm rounded rounded-2 mb-4 pb-4 border border-1">
+  <app-list-circuit-approbation-des-factures></app-list-circuit-approbation-des-factures>
+</div>
+}

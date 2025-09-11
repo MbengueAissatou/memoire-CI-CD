@@ -1,0 +1,12 @@
+.border-status-acheve{
+  border-left: 6px solid #198754 !important;
+}
+.border-status-en-cours{
+  border-left: 6px solid #FFC107 !important;
+}
+.border-status-en-attente{
+  border-left: 6px solid rgb(173, 171, 171) !important;
+}
+.border-status-suspendu{
+  border-left: 6px solid #DC3545 !important;
+}

@@ -1,0 +1,41 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">PartiePrenante  - {{les_partie_prenantes.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_partie_prenante()">Ajouter PartiePrenante</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_partie_prenante</th>
+<th scope="col">nom</th>
+<th scope="col">prenom</th>
+<th scope="col">fonction</th>
+<th scope="col">telephone</th>
+<th scope="col">email</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_partie_prenante of les_partie_prenantes; track one_partie_prenante) {
+          <tr>
+            <td>{{one_partie_prenante.id_partie_prenante}}</td>
+<td>{{one_partie_prenante.nom}}</td>
+<td>{{one_partie_prenante.prenom}}</td>
+<td>{{one_partie_prenante.fonction}}</td>
+<td>{{one_partie_prenante.telephone}}</td>
+<td>{{one_partie_prenante.email}}</td>
+<td>{{one_partie_prenante.created_at}}</td>
+<td>{{one_partie_prenante.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_partie_prenante(one_partie_prenante)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_partie_prenante(one_partie_prenante)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

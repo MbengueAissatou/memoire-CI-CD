@@ -1,0 +1,35 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">Fichier  - {{les_fichiers.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_fichier()">Ajouter Fichier</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_fichier</th>
+<th scope="col">id_projet</th>
+<th scope="col">piece_jointe</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_fichier of les_fichiers; track one_fichier) {
+          <tr>
+            <td>{{one_fichier.id_fichier}}</td>
+<td>{{one_fichier.id_projet}}</td>
+<td>{{one_fichier.piece_jointe}}</td>
+<td>{{one_fichier.created_at}}</td>
+<td>{{one_fichier.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_fichier(one_fichier)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_fichier(one_fichier)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

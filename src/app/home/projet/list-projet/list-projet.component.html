@@ -1,0 +1,95 @@
+<!-- entête -->
+<div class="d-flex align-items-center justify-content-between bg-white shadow-sm p-4 rounded-2 mb-4 border">
+  <div class="fs-5">Projet - {{ les_projets.length }}</div>
+  <div class="d-flex">
+    <!-- <button (click)="openModal_list_etat_projet()" class="btn btn-outline-primary me-2">
+        <i class="bi bi-clock
+        "></i> Etat
+      </button> -->
+    <button (click)="group_by_change()" class="btn btn-outline-primary me-2">
+       <i class="bi bi-collection me-1"></i> {{ group_by_labels[filter.group_by] || filter.group_by }}
+
+    </button>
+    <button class="btn btn-outline-primary me-2" (click)="openModal_list_cellule()">
+      <i class="bi bi-grid-3x3-gap"></i> Cellule
+    </button>
+    <button class="btn btn-outline-primary me-2" (click)="openModal_list_bailleur()">
+      <i class="bi bi-building"></i> Bailleur
+    </button>
+    <button class="btn btn-primary" (click)="openModal_add_projet()">
+      <i class="bi bi-plus-square-dotted"></i> Projets
+    </button>
+  </div>
+</div>
+
+<!-- Loading state -->
+<ng-container *ngIf="loading_get_projet">
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted fs-5">Chargement en cours...</p>
+  </div>
+</ng-container>
+
+<!-- Liste des cartes projet -->
+<div class="row g-3" *ngIf="!loading_get_projet && les_projets.length > 0">
+  @for (bailleur of list_grouped|keyvalue; track bailleur.key) {
+  <div class="text-center fs-3 ">
+    <span [ngStyle]="{'color': '#B7673E'}">
+      {{((!bailleur.key || bailleur.key == 'null') ? 'Sans ' + filter.group_by : bailleur.key) | titlecase}}
+    </span>
+
+  </div>
+  @for (one_projet of bailleur.value; track one_projet) {
+  <div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="card shadow-sm h-100 border border-2" [ngClass]="'border-' + one_projet.couleur"
+      [routerLink]="['/home/details_projet/',one_projet.id_projet]">
+      <div class="card-body">
+        <!-- Titre -->
+        <h6 class="mb-2 text-truncate"
+          [ngStyle]="{'color': one_projet.couleur ? one_projet.couleur : '#000', 'opacity': 0.9}">{{ one_projet.nom ||
+          'Nom indisponible' }}</h6>
+
+        <!-- Détails budget -->
+        <div class="mt-2">
+          <small class="text-muted"><i class="bi bi-cash-stack"></i> {{ api.formatNumber(one_projet.montant_budget)  }}
+            FCFA</small><br />
+          <small class="text-muted">Taux d'encaissement : {{ one_projet.pourcentage_budget }}%</small>
+          <div class="progress mt-1 large">
+            <div class="progress-bar" role="progressbar" [style.width.%]="one_projet.pourcentage_budget" [ngStyle]="{
+         'background-color': one_projet.pourcentage_budget < 50 ? '#FFC107' : '#198754'
+       }">
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <!-- État du projet en bas à droite -->
+      <div class="position-absolute bottom-0 end-0 mb-2 me-2" style="opacity: 0.6;">
+        <i class="bi bi-tags me-1" style="font-size: 0.8rem;"></i>
+        <span class="badge" [ngClass]="{
+              'bg-secondary': one_projet.id_etat_projet === 1,
+              'bg-warning': one_projet.id_etat_projet === 2,
+              'bg-success': one_projet.id_etat_projet === 3,
+              'bg-danger': one_projet.id_etat_projet === 4
+            }" style="font-size: 0.7rem;">
+          {{ one_projet.etat_projet }}
+        </span>
+      </div>
+    </div>
+  </div>
+  }
+  }
+</div>
+
+<!-- Empty state -->
+<div *ngIf="!loading_get_projet && les_projets.length === 0" class="text-center py-5">
+  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#6c757d" class="bi bi-info-circle mb-3"
+    viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+    <path
+      d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+  </svg>
+  <p class="fs-5 text-muted">Pas de données</p>
+</div>

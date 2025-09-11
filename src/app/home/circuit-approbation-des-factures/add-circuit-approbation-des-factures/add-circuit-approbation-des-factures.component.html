@@ -1,0 +1,115 @@
+<div class="modal-header" data-bs-theme="ligth">
+      <h1 class="modal-title fs-5">Ajouter Circuit D'approbation</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_add_circuit_approbation_des_factures"
+            (ngSubmit)="onSubmit_add_circuit_approbation_des_factures()"
+            #form_add_circuit_approbation_des_factures="ngForm"
+            class="row">
+
+            <!-- Champ service -->
+            <div class="form-group col-sm-12">
+              <label>Service / Fonction <span class="text-danger">*</span></label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="service"
+                     placeholder="service"
+                     [ngClass]="{ 'is-invalid': submitted && f.service.errors }"/>
+              @if (submitted && f.service.errors) {
+                <div class="invalid-feedback">
+                  @if (f.service.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- Champ nom -->
+            <div class="form-group col-sm-6">
+              <label>Nom </label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="nom"
+                     placeholder="nom"
+                     [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"/>
+              @if (submitted && f.nom.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- Champ prenom -->
+            <div class="form-group col-sm-6">
+              <label>Prenom </label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="prenom"
+                     placeholder="prenom"
+                     [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"/>
+              @if (submitted && f.prenom.errors) {
+                <div class="invalid-feedback">
+                  @if (f.prenom.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- Champ telephone -->
+            <div class="form-group col-sm-6">
+              <label>Telephone</label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="telephone"
+                     placeholder="telephone"
+                     [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }"/>
+              @if (submitted && f.telephone.errors) {
+                <div class="invalid-feedback">
+                  @if (f.telephone.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- Champ telephone -->
+            <div class="form-group col-sm-6">
+              <label>Email</label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="email"
+                     placeholder="email"
+                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              @if (submitted && f.email.errors) {
+                <div class="invalid-feedback">
+                  @if (f.email.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- Champ Observation -->
+            <div class="form-group col-sm-12">
+              <label>Observation</label>
+              <textarea class="form-control"
+                     type="text"
+                     formControlName="observation"
+                     placeholder="Observation"
+                     [ngClass]="{ 'is-invalid': submitted && f.observation.errors }" rows="3"></textarea>
+              @if (submitted && f.observation.errors) {
+                <div class="invalid-feedback">
+                  @if (f.observation.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_add_circuit_approbation_des_factures || loading_get_details_add_circuit_approbation_des_factures_form"
+      (click)="form_add_circuit_approbation_des_factures.ngSubmit.emit()">
+      {{ loading_add_circuit_approbation_des_factures ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

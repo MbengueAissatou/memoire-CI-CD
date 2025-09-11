@@ -1,0 +1,35 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">StatutFacture  - {{les_statut_factures.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_statut_facture()">Ajouter StatutFacture</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_statut_facture</th>
+<th scope="col">nom</th>
+<th scope="col">description</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_statut_facture of les_statut_factures; track one_statut_facture) {
+          <tr>
+            <td>{{one_statut_facture.id_statut_facture}}</td>
+<td>{{one_statut_facture.nom}}</td>
+<td>{{one_statut_facture.description}}</td>
+<td>{{one_statut_facture.created_at}}</td>
+<td>{{one_statut_facture.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_statut_facture(one_statut_facture)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_statut_facture(one_statut_facture)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

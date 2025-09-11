@@ -1,0 +1,35 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">CircuitFacture  - {{les_circuit_factures.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_circuit_facture()">Ajouter CircuitFacture</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_circuit_approbation_des_factures</th>
+<th scope="col">id_facture</th>
+<th scope="col">date</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_circuit_facture of les_circuit_factures; track one_circuit_facture) {
+          <tr>
+            <td>{{one_circuit_facture.id_circuit_approbation_des_factures}}</td>
+<td>{{one_circuit_facture.id_facture}}</td>
+<td>{{one_circuit_facture.date}}</td>
+<td>{{one_circuit_facture.created_at}}</td>
+<td>{{one_circuit_facture.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_circuit_facture(one_circuit_facture)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_circuit_facture(one_circuit_facture)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

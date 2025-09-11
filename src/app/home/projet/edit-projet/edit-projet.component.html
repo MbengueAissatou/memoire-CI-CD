@@ -1,0 +1,213 @@
+<div class="modal-header" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">Modifier projet</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="reactiveForm_edit_projet" (ngSubmit)="onSubmit_edit_projet()" #form_edit_projet="ngForm">
+    <fieldset class="row fieldset-custom">
+      <legend class="text-secondary">Projet</legend>
+      <!-- Champ Nom -->
+      <div class="form-group col-sm-8">
+        <label>Nom <span class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="nom" placeholder="Nom"
+          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" />
+        @if (submitted && f.nom.errors) {
+        <div class="invalid-feedback">
+          @if (f.nom.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ code_projet -->
+      <div class="form-group col-sm-4">
+        <label>Code projet <span class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="code_projet" placeholder="Code Projet"
+          [ngClass]="{ 'is-invalid': submitted && f.code_projet.errors }" />
+        @if (submitted && f.code_projet.errors) {
+        <div class="invalid-feedback">
+          @if (f.code_projet.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Id Cellule (Clé étrangère vers cellule) -->
+      <div class="form-group col-sm-6">
+        <label>Cellule <span class="text-danger">*</span></label>
+        <select [ngClass]="{ 'is-invalid': submitted && f.id_cellule.errors }" class="form-select"
+          formControlName="id_cellule">
+          <option value="">Sélectionnez un(e) Cellule</option>
+          @for (one_cellule of form_details?.les_cellules; track $index) {
+          <option [value]="one_cellule.id_cellule">
+            {{ one_cellule.nom_cellule}}
+          </option>
+          }
+        </select>
+        @if (submitted && f.id_cellule.errors) {
+        <div class="invalid-feedback">
+          @if (f.id_cellule.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Id Client (Clé étrangère vers client) -->
+      <div class="form-group col-sm-6">
+        <label>Client <span class="text-danger">*</span></label>
+        <select [ngClass]="{ 'is-invalid': submitted && f.id_client.errors }" class="form-select"
+          formControlName="id_client">
+          <option value="">Sélectionnez un(e) Client</option>
+          @for (one_client of form_details?.les_clients; track $index) {
+          <option [value]="one_client.id_client">
+            {{ one_client.nom }}
+          </option>
+          }
+        </select>
+        @if (submitted && f.id_client.errors) {
+        <div class="invalid-feedback">
+          @if (f.id_client.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Condition Facture -->
+      <div class="form-group col-sm-6">
+        <label>Condition Facturation (En mois) <span class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="condition_facture" placeholder="Condition Facture"
+          [ngClass]="{ 'is-invalid': submitted && f.condition_facture.errors }" />
+        @if (submitted && f.condition_facture.errors) {
+        <div class="invalid-feedback">
+          @if (f.condition_facture.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Delais Reglement Facture -->
+      <div class="form-group col-sm-6">
+        <label>Delais Reglement Facture (En jour)<span class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="delais_reglement_facture"
+          placeholder="Delais Reglement Facture"
+          [ngClass]="{ 'is-invalid': submitted && f.delais_reglement_facture.errors }" />
+        @if (submitted && f.delais_reglement_facture.errors) {
+        <div class="invalid-feedback">
+          @if (f.delais_reglement_facture.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Id type_remuneration (Clé étrangère vers type_remuneration) -->
+      <div class="form-group col-sm-12">
+        <label>Type Rémunération <span class="text-danger">*</span></label>
+        <select [ngClass]="{ 'is-invalid': submitted && f.type_remuneration.errors }" class="form-select"
+          formControlName="type_remuneration">
+          <option value="">Sélectionnez un(e) type remuneration</option>
+          @for (one_type_remuneration of les_types_remuneration; track $index) {
+          <option [value]="one_type_remuneration">
+            {{ one_type_remuneration }}
+          </option>
+          }
+        </select>
+        @if (submitted && f.type_remuneration.errors) {
+        <div class="invalid-feedback">
+          @if (f.type_remuneration.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Paretanire -->
+      <fieldset class="row fieldset-custom">
+        <legend class="text-secondary">Partenaire</legend>
+        <tr>
+          <div class="text-center" *ngIf="f.les_partenaires.controls.length == 0">
+            <button class="btn btn-primary" type="button" (click)="onAddForm()">
+              <i class="bi bi-plus-square-dotted me-1"></i> Ajouter un partenaire
+            </button>
+          </div>
+          <ng-container formArrayName="les_partenaires">
+            <ng-container
+              *ngFor="let one_detail_control of f.les_partenaires.controls; let i = index; let un = first; let last = last"
+              [formGroupName]="i">
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <label>Partenaire <span class="text-danger">*</span></label>
+                  <select [ngClass]="{ 'is-invalid': submitted && one_detail_control.controls.id_partenaire.errors }"
+                    class="form-select" formControlName="id_partenaire">
+                    <option value="">Sélectionnez un(e) Partenaire</option>
+                    @for (one_partenaire of form_details?.les_partenaires; track $index) {
+                    <option [value]="one_partenaire.id_partenaire"
+                      [disabled]="api.is_already_selected(one_partenaire.id_partenaire,f?.les_partenaires.value,'id_partenaire')==one_partenaire.id_partenaire">
+                      {{ one_partenaire.nom_partenaire }}
+                    </option>
+                    }
+                  </select>
+                  @if (submitted && one_detail_control.controls.id_partenaire.errors) {
+                  <div class="invalid-feedback">
+                    @if (one_detail_control.controls.id_partenaire.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                    }
+                  </div>
+                  }
+                </div>
+                <!-- Champ Fichier Contrat -->
+                <div class="form-group col-sm-3">
+                  <label>Pourcentage Partenaire (%) <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" formControlName="pourcentage_partenaire" placeholder="20"
+                    [ngClass]="{ 'is-invalid': submitted && one_detail_control.controls.pourcentage_partenaire.errors }" />
+                  @if (submitted && one_detail_control.controls.pourcentage_partenaire.errors) {
+                  <div class="invalid-feedback">
+                    @if (one_detail_control.controls.pourcentage_partenaire.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                    }
+                  </div>
+                  }
+                  @if (submitted && one_detail_control.controls.pourcentage_partenaire.errors) {
+                  <div class="invalid-feedback">
+                    @if (one_detail_control.controls.pourcentage_partenaire.errors.pattern) {
+                    <div>Que des chiffres</div>
+                    }
+                  </div>
+                  }
+                </div>
+                <div class=" d-flex justify-content-center align-items-center col-sm-1 ">
+                  <button class="btn btn-outline-primary" type="button" (click)="onRemoveForm(i)"><i
+                      class="bi bi-trash3-fill"></i> </button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <div class="text-center" *ngIf="f.les_partenaires.controls.length !== 0">
+            <button class="btn btn-primary" type="button" (click)="onAddForm()">
+              <i class="bi bi-plus-square-dotted"></i>
+            </button>
+          </div>
+
+          <!-- @if (is_partenaire) { -->
+          <!-- Champ Id Bailleur (Clé étrangère vers bailleur) -->
+          <!-- <div class=" d-flex justify-content-center align-items-center col-sm-2 ">
+          <button class="btn btn-outline-primary" type="button" (click)="switch_is_partenaire()"><i
+              class="bi bi-trash3-fill"></i> </button>
+        </div> -->
+          <!-- }@else {
+        <div class="text-center">
+          <button class="btn btn-outline-primary w-25" type="button" (click)="switch_is_partenaire()"><i
+              class="bi bi-plus-square-dotted"></i> Partenaire</button>
+        </div>
+        } -->
+      </fieldset>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_projet ||
+      loading_get_details_edit_projet_form || form_edit_projet.pristine" (click)="form_edit_projet.ngSubmit.emit()">
+    {{ loading_edit_projet ? "En cours ..." : "Valider" }}
+  </button>
+  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+</div>

@@ -1,0 +1,42 @@
+<!-- entete -->
+<div class="d-flex align-items-center justify-content-between">
+  <div class="fs-1">AvenantProjet - {{searchService.list.length}}</div>
+  <div class="d-flex">
+    <button class="btn btn-primary" (click)="openModal_add_avenant_projet()">Ajouter AvenantProjet</button>
+  </div>
+</div>
+<!-- Liste des éléments -->
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id_avenant_projet</th>
+        <th scope="col">id_projet</th>
+        <th scope="col">nom_avenant</th>
+        <th scope="col">date_creation</th>
+        <th scope="col">montant</th>
+        <th scope="col">created_at</th>
+        <th scope="col">updated_at</th>
+        <th scope="col">actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (one_avenant_projet of searchService.list; track one_avenant_projet) {
+      <tr>
+        <td>{{one_avenant_projet.id_avenant_projet}}</td>
+        <td>{{one_avenant_projet.id_projet}}</td>
+        <td>{{one_avenant_projet.nom_avenant}}</td>
+        <td>{{one_avenant_projet.date_creation}}</td>
+        <td>{{one_avenant_projet.montant}}</td>
+        <td>{{one_avenant_projet.created_at}}</td>
+        <td>{{one_avenant_projet.updated_at}}</td>
+        <td>
+          <i style="cursor: pointer;" class="bi bi-pencil-square me-2"
+            (click)="openModal_edit_avenant_projet(one_avenant_projet)"></i>
+          <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_avenant_projet(one_avenant_projet)"></i>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

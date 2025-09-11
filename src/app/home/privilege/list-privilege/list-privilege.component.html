@@ -1,0 +1,35 @@
+<!-- entete -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="fs-1">Privilege  - {{les_privileges.length}}</div>
+    <div class="d-flex">
+      <button class="btn btn-primary" (click)="openModal_add_privilege()">Ajouter Privilege</button>
+    </div>
+  </div>
+  <!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id_privilege</th>
+<th scope="col">nom_privilege</th>
+<th scope="col">description</th>
+<th scope="col">created_at</th>
+<th scope="col">updated_at</th><th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_privilege of les_privileges; track one_privilege) {
+          <tr>
+            <td>{{one_privilege.id_privilege}}</td>
+<td>{{one_privilege.nom_privilege}}</td>
+<td>{{one_privilege.description}}</td>
+<td>{{one_privilege.created_at}}</td>
+<td>{{one_privilege.updated_at}}</td><td>
+    <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_privilege(one_privilege)"></i>
+    <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_privilege(one_privilege)"></i>
+</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

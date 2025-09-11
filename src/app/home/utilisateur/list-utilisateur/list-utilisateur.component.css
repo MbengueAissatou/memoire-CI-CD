@@ -1,0 +1,12 @@
+.table td {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.zoomable-img {
+  cursor: zoom-in;
+}

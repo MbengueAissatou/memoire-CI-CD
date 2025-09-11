@@ -1,0 +1,4 @@
+/* Optional: force solar image to cover */
+.object-fit-cover {
+  object-fit: cover;
+}

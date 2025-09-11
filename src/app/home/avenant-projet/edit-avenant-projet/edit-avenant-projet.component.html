@@ -1,0 +1,202 @@
+<div class="modal-header" data-bs-theme="ligth">
+  <h1 class="modal-title fs-5">
+    Modifier {{(avenant_projet_to_edit.index==0)?'Base':'Avenant'}}
+  </h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="reactiveForm_edit_avenant_projet" (ngSubmit)="onSubmit_edit_avenant_projet()"
+    #form_edit_avenant_projet="ngForm" enctype="multipart/form-data">
+    <fieldset class="row fieldset-custom">
+      <legend class="text-secondary"> {{(avenant_projet_to_edit.index==0)?'Base':'Avenant'}} </legend>
+      <!-- Champ Numero Contrat -->
+      <div class="form-group col-sm-3">
+        <label>Numero {{(avenant_projet_to_edit.index==0)?'Contrat':'Avenant'}} <span
+            class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="numero_contrat" placeholder="Numero Avenant"
+          [ngClass]="{ 'is-invalid': submitted && f.numero_contrat.errors }" />
+        @if (submitted && f.numero_contrat.errors) {
+        <div class="invalid-feedback">
+          @if (f.numero_contrat.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Montant Base -->
+      <div class="form-group col-sm-3">
+        <label>Montant <span class="text-danger">*</span></label>
+        <input class="form-control" type="text" formControlName="montant" placeholder="Montant"
+          [ngClass]="{ 'is-invalid': submitted && f.montant.errors }" />
+        @if (submitted && f.montant.errors) {
+        <div class="invalid-feedback">
+          @if (f.montant.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Ordre Service -->
+      <div class="form-group col-sm-3">
+        <label>Ordre Service <span class="text-danger">*</span></label>
+        <input class="form-control" type="date" formControlName="ordre_service" placeholder="Ordre Service"
+          [ngClass]="{ 'is-invalid': submitted && f.ordre_service.errors }" [max]="f.date_fin.value"/>
+        @if (submitted && f.ordre_service.errors) {
+        <div class="invalid-feedback">
+          @if (f.ordre_service.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Date Fin Contrat -->
+      <div class="form-group col-sm-3">
+        <label>Date Fin Contrat <span class="text-danger">*</span></label>
+        <input class="form-control" type="date" formControlName="date_fin" placeholder="Date Fin Contrat"
+          [ngClass]="{ 'is-invalid': submitted && f.date_fin.errors }" [min]="f.ordre_service.value"/>
+        @if (submitted && f.date_fin.errors) {
+        <div class="invalid-feedback">
+          @if (f.date_fin.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      @if (this.avenant_projet_to_edit.id_bailleur) {
+
+
+      <!-- Champ Id Bailleur (Clé étrangère vers bailleur) -->
+      <div class="form-group col-sm-3">
+        <label>Bailleur <span class="text-danger">*</span></label>
+        <select [ngClass]="{ 'is-invalid': submitted && f.id_bailleur.errors }" class="form-select"
+          formControlName="id_bailleur">
+          <option value="">Sélectionnez un(e) Bailleur</option>
+          @for (one_bailleur of form_details?.les_bailleurs; track $index) {
+          <option [value]="one_bailleur.id_bailleur">
+            {{ one_bailleur.nom_bailleur }}
+          </option>
+          }
+        </select>
+        @if (submitted && f.id_bailleur.errors) {
+        <div class="invalid-feedback">
+          @if (f.id_bailleur.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Date Expiration Avd -->
+      <div class="form-group col-sm-3">
+        <label>Date Expiration Caution</label>
+        <input class="form-control" type="date" formControlName="date_expiration_avd" placeholder="Date Expiration Avd"
+          [ngClass]="{ 'is-invalid': submitted && f.date_expiration_avd.errors }" />
+        @if (submitted && f.date_expiration_avd.errors) {
+        <div class="invalid-feedback">
+          @if (f.date_expiration_avd.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Reference Caution -->
+      <div class="form-group col-sm-3">
+        <label>Numéro Caution </label>
+        <input class="form-control" type="text" formControlName="numero_caution" placeholder="Numéro Caution"
+          [ngClass]="{ 'is-invalid': submitted && f.numero_caution.errors }" />
+        @if (submitted && f.numero_caution.errors) {
+        <div class="invalid-feedback">
+          @if (f.numero_caution.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      <!-- Champ Pourcentage Avd -->
+      <div class="form-group col-sm-3">
+        <label>Pourcentage Avd </label>
+        <input class="form-control" type="text" formControlName="pourcentage_avd" placeholder="Pourcentage Avd"
+          [ngClass]="{ 'is-invalid': submitted && f.pourcentage_avd.errors }" />
+        @if (submitted && f.pourcentage_avd.errors) {
+        <div class="invalid-feedback">
+          @if (f.pourcentage_avd.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      }
+      @if (avenant_projet_to_edit.index!=0) {
+
+      <!-- Champ Numero Contrat -->
+      <div class="form-group col-sm-12">
+        <label>Motif</label>
+        <textarea class="form-control" type="text" formControlName="motif" placeholder="Motif"
+          [ngClass]="{ 'is-invalid': submitted && f.motif.errors }" rows="3"></textarea>
+        @if (submitted && f.motif.errors) {
+        <div class="invalid-feedback">
+          @if (f.motif.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+      }
+      <!-- Champs Id Etat Projet avec un contrôle de validité : clé étrangère liée à la colonne id_etat_projet de la table etat_projet -->
+      <div class="form-group col-sm-12">
+        <label>Etat {{(avenant_projet_to_edit.index==0)?'Base':'Avenant'}} <span class="text-danger">*</span></label>
+        <select [ngClass]="{ 'is-invalid': submitted && f.id_etat_avenant.errors }" class="form-select"
+          formControlName="id_etat_avenant">
+          <option value="">Sélectionnez un(e) Etat Projet</option>
+          @for (one_etat_avenant of form_details?.les_etat_avenants; track $index) {
+          <option [value]="one_etat_avenant.id_etat_avenant">
+            {{ one_etat_avenant.nom}}
+          </option>
+          }
+        </select>
+        @if (submitted && f.id_etat_avenant.errors) {
+        <div class="invalid-feedback">
+          @if (f.id_etat_avenant.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Champ Fichier Contrat
+      <div class="form-group col-sm-12">
+        <label>Fichier Contrat</label>
+          <input class="form-control" type="file" id="formFileMultiple" multiple  formControlName="fichier_contrat" [ngClass]="{ 'is-invalid': submitted && f.fichier_contrat.errors }" (change)="on_file_selected($event)" name="fichier_contrat" >
+        @if (submitted && f.fichier_contrat.errors) {
+        <div class="invalid-feedback">
+          @if (f.fichier_contrat.errors.required) {
+          <div>Ce champ est obligatoire</div>
+          }
+        </div>
+        }
+      </div>-->
+      <!-- Champ Fichier Contrat -->
+      <div class="form-group col-sm-12">
+        <label>Fichier Contrat</label>
+        <input class="form-control" type="file" id="formFileMultiple" multiple formControlName="fichier_contrat"
+          [ngClass]="{ 'is-invalid': submitted && f.fichier_contrat.errors }" (change)="on_file_selected($event)"
+          name="fichier_contrat">
+
+        <div *ngIf="submitted && f.fichier_contrat.errors" class="invalid-feedback">
+          <div *ngIf="f.fichier_contrat.errors.required">Ce champ est obligatoire</div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_avenant_projet ||
+      loading_get_details_edit_avenant_projet_form || form_edit_avenant_projet.pristine"
+    (click)="form_edit_avenant_projet.ngSubmit.emit()">
+    {{ loading_edit_avenant_projet ? "En cours ..." : "Valider" }}
+  </button>
+  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+</div>

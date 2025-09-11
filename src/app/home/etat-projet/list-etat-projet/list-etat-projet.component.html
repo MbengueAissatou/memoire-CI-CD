@@ -1,0 +1,39 @@
+<!-- entete -->
+<div class="d-flex align-items-center justify-content-between bg-white p-2 rounded rounded-2 mb-4">
+  <div class="fs-1">Etats - {{les_etat_projets.length}}</div>
+  <div class="d-flex">
+    <button class="btn btn-primary" (click)="openModal_add_etat_projet()"><i class="bi bi-plus-square-dotted"></i>Ajouter Etat</button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+
+  </div>
+</div>
+<!-- Liste des éléments -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Etat</th>
+          <th scope="col">Icone & Couleur</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (one_etat of les_etat_projets; track one_etat) {
+        <tr>
+          <td>{{one_etat.nom}}
+            <div class="text-muted">{{one_etat.description}}</div>
+          </td>
+          <td>
+            <div class="text-center">
+              <i class="bi" [class]="one_etat.icone" [style.color]="one_etat.couleur"></i>
+            </div>
+          </td>
+          <td>
+            <i style="cursor: pointer;" class="bi bi-pencil-square me-2" (click)="openModal_edit_etat_projet(one_etat)"></i>
+            <i style="cursor: pointer;" class="bi bi-trash" (click)="delete_etat_projet(one_etat)"></i>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>

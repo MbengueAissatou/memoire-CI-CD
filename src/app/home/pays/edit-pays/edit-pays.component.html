@@ -1,0 +1,41 @@
+<div class="modal-header" data-bs-theme="ligth">
+        <h1 class="modal-title fs-5">Modifier pays</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_edit_pays" (ngSubmit)="onSubmit_edit_pays()" #form_edit_pays="ngForm" class="row">
+
+<!-- Nom Pays field avec un contrôle de validité -->
+            <div class="form-group col-sm-12">
+              <label>Nom Pays <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" formControlName="nom_pays" placeholder="Nom Pays" [ngClass]="{ 'is-invalid': submitted && f.nom_pays.errors }"/>
+              @if (submitted && f.nom_pays.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom_pays.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+<!-- Drapeau field avec un contrôle de validité -->
+            <!-- <div class="form-group col-sm-6">
+              <label>Drapeau</label>
+              <input class="form-control" type="text" formControlName="drapeau" placeholder="Drapeau" [ngClass]="{ 'is-invalid': submitted && f.drapeau.errors }"/>
+              @if (submitted && f.drapeau.errors) {
+                <div class="invalid-feedback">
+                  @if (f.drapeau.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div> -->
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_edit_pays ||
+      loading_get_details_edit_pays_form ||form_edit_pays.pristine" (click)="form_edit_pays.ngSubmit.emit()">
+          {{ loading_edit_pays ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

@@ -1,0 +1,52 @@
+<div class="modal-header" data-bs-theme="ligth">
+      <h1 class="modal-title fs-5">Ajouter cellule</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="reactiveForm_add_cellule"
+            (ngSubmit)="onSubmit_add_cellule()"
+            #form_add_cellule="ngForm"
+            class="row">
+
+            <!-- Champ Nom Cellule -->
+            <div class="form-group col-sm-12">
+              <label>Nom Cellule <span class="text-danger">*</span></label>
+              <input class="form-control"
+                     type="text"
+                     formControlName="nom_cellule"
+                     placeholder="Nom Cellule"
+                     [ngClass]="{ 'is-invalid': submitted && f.nom_cellule.errors }"/>
+              @if (submitted && f.nom_cellule.errors) {
+                <div class="invalid-feedback">
+                  @if (f.nom_cellule.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Champ Description -->
+            <div class="form-group col-sm-12">
+              <label>Description</label>
+              <textarea class="form-control"
+                     type="text"
+                     formControlName="description"
+                     placeholder="Description"
+                     [ngClass]="{ 'is-invalid': submitted && f.description.errors }" rows="3"></textarea>
+              @if (submitted && f.description.errors) {
+                <div class="invalid-feedback">
+                  @if (f.description.errors.required) {
+                    <div>Ce champ est obligatoire</div>
+                  }
+                </div>
+              }
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary m-2" [disabled]="loading_add_cellule || loading_get_details_add_cellule_form"
+      (click)="form_add_cellule.ngSubmit.emit()">
+      {{ loading_add_cellule ? "En cours ..." : "Valider" }}
+      </button>
+      <button type="button" class="btn btn-outline-danger" (click)="activeModal.close()">Fermer</button>
+    </div>

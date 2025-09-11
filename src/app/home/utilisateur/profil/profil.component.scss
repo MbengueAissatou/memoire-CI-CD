@@ -1,0 +1,100 @@
+main {
+    width: 80%;
+    height: 500px;
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 35% 64%;
+    justify-content: space-between;
+
+    .mainContainerLeft {
+        // border: 1px solid;
+        display: grid;
+        grid-template-rows: 30% 68%;
+        gap: 2%;
+        box-shadow: 1px 0px 5px 0px rgba(0, 0, 0, 0.08);
+        height: 100%;
+
+        .mainContainerLeftImage {
+            // border: 1px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .image {
+                height: 150px;
+                width: 150px;
+                // border: 1px solid;
+                border-radius: 50%;
+                background-image: url("/avatar.png");
+                background-size: cover;
+                background-position: center;
+
+            }
+        }
+
+        .mainContainerLeftInfo {
+            // border: 1px solid;
+
+            h4 {
+                font-size: 1.1em;
+                color: #422E18;
+            }
+
+            .mainContainerLeftInfoDetail {
+                // border: 1px solid;
+                width: 100%;
+
+
+
+                h5 {
+                    color: #422E18;
+                    font-size: 1em;
+
+                    span {
+                        color: #CAB195;
+                        font-weight: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .mainContainerRight {
+        // border: 1px solid;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+        .navTabsButton {
+            color: #422E18;
+
+            &.active {
+                background-color: #CAB195;
+                color: white;
+            }
+
+        }
+
+        // #updateInfo{
+
+        //   button{
+        //     background-color: #f47a20;
+        //     color: white;
+        //     border: none;
+        //   }
+        // }
+
+        // #updatePassword{
+
+        //   button{
+        //     background-color: #f47a20;
+        //     color: white;
+        //     border: none;
+        //   }
+        // }
+
+    }
+}
