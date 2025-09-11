@@ -1,0 +1,28 @@
+name: CI Angular
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Installation des dépendances
+        run: npm install
+
+      - name: Exécution des tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Exécution du build
+        run: npm run build -- --configuration=production
